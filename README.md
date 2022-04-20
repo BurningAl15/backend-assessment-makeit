@@ -19,8 +19,25 @@
 
 # Questions
 - Indicate which are the parts of the following url: https://backend.mega-app.com.co:8080/api/articles/search?docid=1020&hl=en#dayone
-> Answer:
+> Answer: 
+> - Scheme = https://
+> - SubDomain = backend.
+> - Domain = mega-app.
+> - Top Level Domain = com.co
+> - Port Number = :8080
+> - Path = /api/articles/search
+> - Query String Separator = ?
+> - Query string / parameter = docid=1020&hl=en
+> - Fragment = #dayone
 - Define what is a Web API, Restful and what are the statusCode 200-, 400-, 500-
 > Answer:
+> - 200: Successful response
+> - 400: Client Errors
+> - 500: Server Errors
 - When we talk about CRUD, what does it mean?
 > Answer:
+> - CRUD are a shortcut for the basic operations to interact with backend:
+>   - Create
+>   - Read
+>   - Update
+>   - Delete
