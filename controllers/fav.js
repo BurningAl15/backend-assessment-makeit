@@ -15,6 +15,7 @@ const favsGetAll = async (req = request, res = response) => {
         Fav.find(query)
             .skip(Number(from))
             .limit(Number(limit))
+            .populate('user', 'email')
     ]);
 
     res.json({
@@ -25,14 +26,22 @@ const favsGetAll = async (req = request, res = response) => {
 
 const favGet = async (req = request, res = response) => {
     const { id } = req.params;
-    const fav = await Fav.findById(id);
+    const fav = await Fav.findById(id)
+        .populate('user', 'email');
     res.json(fav);
 }
 
 const favsPost = async (req, res = response) => {
     const { title, description, link, items } = req.body;
-    const fav = new Fav({ title, description, link, items });
 
+    const data = {
+        title,
+        description,
+        link,
+        items,
+        user: req.user._id
+    }
+    const fav = new Fav(data);
     // Save on DB
     await fav.save();
     res.json({
