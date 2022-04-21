@@ -6,23 +6,27 @@ const FavSchema = Schema({
         ref: 'User',
         required: true
     },
-    title: {
+    items: [
+        {
+            title: {
+                type: String,
+                required: true,
+            },
+            description: {
+                type: String,
+                default: '',
+                trim: true,
+                maxLength: 255,
+            },
+            link: {
+                type: String,
+                required: true,
+            },
+        }
+    ],
+    name: {
         type: String,
-        required: true,
-    },
-    description: {
-        type: String,
-        default: '',
-        trim: true,
-        maxLength: 255,
-    },
-    link: {
-        type: String,
-        required: true,
-    },
-    items: {
-        type: Array,
-        "default": []
+        required: true
     }
 })
 

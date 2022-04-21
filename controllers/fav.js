@@ -1,6 +1,7 @@
 const { response, request } = require('express');
 
 const Fav = require('../models/fav');
+const User = require('../models/user');
 
 const addElementToList = async (req = request, res = response) => {
 
@@ -10,13 +11,17 @@ const favsGetAll = async (req = request, res = response) => {
     const { limit = 5, from = 0 } = req.query;
     const query = {};
 
-    const [total, favs] = await Promise.all([
-        Fav.countDocuments(query),
-        Fav.find(query)
+    const userId = req.user._id;
+
+    const [total, user] = await Promise.all([
+        Fav.countDocuments(),
+        User.findById(userId)
             .skip(Number(from))
             .limit(Number(limit))
-            .populate('user', 'email')
+            .populate('favs')
     ]);
+
+    const favs = user.favs;
 
     res.json({
         total,
@@ -26,8 +31,11 @@ const favsGetAll = async (req = request, res = response) => {
 
 const favGet = async (req = request, res = response) => {
     const { id } = req.params;
-    const fav = await Fav.findById(id)
-        .populate('user', 'email');
+
+    // req.user.favs
+    //si el id está en los favs del user, entonces muestra, sino tira error
+    const fav = await Fav.findById(id);
+    // .populate('user', 'email');
     res.json(fav);
 }
 
