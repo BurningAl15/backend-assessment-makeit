@@ -4,9 +4,9 @@ const Fav = require('../models/fav');
 
 const favsShowAll = async (req = request, res = response) => {
     const { limit = 5, from = 0 } = req.query;
+    const userId = req.user._id;
     const query = { user: userId };
 
-    const userId = req.user._id;
 
     const [total, user] = await Promise.all([
         Fav.countDocuments(query),
@@ -53,7 +53,7 @@ const favsDelete = async (req, res = response) => {
     const userId = req.user._id;
     const fav = await Fav.findOneAndDelete({ id: id, user: userId });
 
-    res.json(fav);
+    res.json({ msg: "Fav successfully deleted!" });
 }
 module.exports = {
     favShowById,

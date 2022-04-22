@@ -35,8 +35,9 @@ const login = async (req, res = response) => {
         const token = await generateJWT(user.id);
 
         res.json({
-            user,
-            token
+            // user,
+            token,
+            msg: 'Successfully Logged in!'
         })
     }
     catch (err) {
@@ -59,7 +60,8 @@ const register = async (req, res = response) => {
     await user.save();
 
     res.json({
-        user
+        // user
+        msg: "Congrats, your user is successfully created!"
     });
 }
 
