@@ -1,55 +1,45 @@
 const { response, request } = require('express');
 
 const Fav = require('../models/fav');
-const User = require('../models/user');
 
-const addElementToList = async (req = request, res = response) => {
-
-}
-
-const favsGetAll = async (req = request, res = response) => {
+const favsShowAll = async (req = request, res = response) => {
     const { limit = 5, from = 0 } = req.query;
-    const query = {};
+    const query = { user: userId };
 
     const userId = req.user._id;
 
     const [total, user] = await Promise.all([
-        Fav.countDocuments(),
-        User.findById(userId)
+        Fav.countDocuments(query),
+        Fav.find(query)
             .skip(Number(from))
             .limit(Number(limit))
-            .populate('favs')
     ]);
-
-    const favs = user.favs;
 
     res.json({
         total,
-        favs
+        user
     });
 }
 
-const favGet = async (req = request, res = response) => {
+const favShowById = async (req = request, res = response) => {
     const { id } = req.params;
+    const userId = req.user._id;
+    const query = { user: userId, id: id };
 
-    // req.user.favs
-    //si el id está en los favs del user, entonces muestra, sino tira error
-    const fav = await Fav.findById(id);
-    // .populate('user', 'email');
+    const fav = await Fav.findOne(query);
+
     res.json(fav);
 }
 
-const favsPost = async (req, res = response) => {
-    const { title, description, link, items } = req.body;
-
+const favsCreate = async (req, res = response) => {
+    const { name, items } = req.body;
     const data = {
-        title,
-        description,
-        link,
+        name,
         items,
         user: req.user._id
     }
     const fav = new Fav(data);
+
     // Save on DB
     await fav.save();
     res.json({
@@ -60,13 +50,14 @@ const favsPost = async (req, res = response) => {
 
 const favsDelete = async (req, res = response) => {
     const { id } = req.params;
-    const fav = await Fav.findOneAndDelete(id);
+    const userId = req.user._id;
+    const fav = await Fav.findOneAndDelete({ id: id, user: userId });
 
     res.json(fav);
 }
 module.exports = {
-    favGet,
-    favsGetAll,
-    favsPost,
+    favShowById,
+    favsShowAll,
+    favsCreate,
     favsDelete,
 }

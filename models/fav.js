@@ -6,6 +6,10 @@ const FavSchema = Schema({
         ref: 'User',
         required: true
     },
+    name: {
+        type: String,
+        required: true
+    },
     items: [
         {
             title: {
@@ -23,11 +27,7 @@ const FavSchema = Schema({
                 required: true,
             },
         }
-    ],
-    name: {
-        type: String,
-        required: true
-    }
+    ]
 })
 
 FavSchema.methods.toJSON = function () {

@@ -1,12 +1,12 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 const { validateFields, isAuthenticated } = require('../middlewares/');
-const { userExistsById, favExistsById } = require('../helpers/db-validators');
+const { favExistsById } = require('../helpers/db-validators');
 
 const {
-    favGet,
-    favsGetAll,
-    favsPost,
+    favShowById,
+    favsShowAll,
+    favsCreate,
     favsDelete,
 } = require('../controllers/fav');
 const router = Router();
@@ -14,17 +14,17 @@ const router = Router();
 router.get('/:id', [
     isAuthenticated,
     validateFields
-], favGet);
+], favShowById);
 
 router.get('/', [
     isAuthenticated,
     validateFields
-], favsGetAll);
+], favsShowAll);
 
 router.post('/', [
     isAuthenticated,
     validateFields,
-], favsPost);
+], favsCreate);
 
 router.delete('/:id', [
     isAuthenticated,

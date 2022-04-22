@@ -1,5 +1,4 @@
 const { Schema, model } = require('mongoose');
-//Referencia a la lista de favoritos
 
 const UserSchema = Schema({
     email: {
@@ -11,7 +10,6 @@ const UserSchema = Schema({
         type: String,
         required: [true, 'Password field is required'],
     },
-    //campo referencia a los favs
     favs: [{
         type: Schema.Types.ObjectId,
         ref: 'Fav',

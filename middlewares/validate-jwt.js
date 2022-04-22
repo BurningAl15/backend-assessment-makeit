@@ -6,7 +6,7 @@ const isAuthenticated = async (req = request, res = response, next) => {
     const token = req.header('x-token');
     if (!token) {
         return res.status(401).json({
-            msg: 'No hay token en la petición'
+            msg: 'No token in request'
         })
     }
 
@@ -19,7 +19,7 @@ const isAuthenticated = async (req = request, res = response, next) => {
         //User is deleted in DB
         if (!user) {
             return res.status(401).json({
-                msg: 'Token no válido - user doesnt exist in DB'
+                msg: `No valid token, user didn't exist`
             })
         }
 
@@ -28,7 +28,7 @@ const isAuthenticated = async (req = request, res = response, next) => {
     } catch (err) {
         console.log(err);
         res.status(401).json({
-            msg: 'Token no válido'
+            msg: 'No token in request'
         });
     }
 }
